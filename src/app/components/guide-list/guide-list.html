@@ -1,0 +1,10 @@
+<h1>Répertoire des guides</h1>
+<p>{{ guides().length }} guides enregistrés.</p>
+
+<ul>
+  @for (guide of guides(); track guide.id) {
+    <li>{{ guide.prenom }} {{ guide.nom }} · {{ guide.region }} · {{ guide.specialite }} · {{ guide.statut }}</li>
+  } @empty {
+    <li>Aucun guide pour l'instant.</li>
+  }
+</ul>

@@ -1,0 +1,12 @@
+@if (!modeEdition()) {
+  <h1>Ajouter un guide</h1>
+  <p>Le formulaire d'ajout viendra ici.</p>
+} @else if (guide(); as g) {
+  <h1>Modifier la fiche de {{ g.prenom }} {{ g.nom }}</h1>
+  <p>Le formulaire pré-rempli viendra ici.</p>
+} @else {
+  <h1>Ce guide n'existe pas</h1>
+  <p>La fiche demandée a peut-être été supprimée.</p>
+}
+
+<a routerLink="/guides">← Retour au répertoire</a>

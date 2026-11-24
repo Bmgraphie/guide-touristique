@@ -1,0 +1,29 @@
+.entete {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid #d9e1dd;
+}
+.marque {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #17221f;
+  text-decoration: none;
+}
+.bouton {
+  background: #0b6b58;
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+.contenu {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 20px;
+}
