@@ -6,3 +6,13 @@
 <main class="contenu">
   <router-outlet />
 </main>
+
+<!-- Message de succès ou d'erreur, annoncé aux lecteurs d'écran -->
+<div class="zone-message" role="status" aria-live="polite">
+  @if (notification.message(); as m) {
+    <p class="message" [class.message-erreur]="m.type === 'erreur'">
+      {{ m.texte }}
+      <button type="button" (click)="notification.fermer()" aria-label="Fermer le message">×</button>
+    </p>
+  }
+</div>
