@@ -1,12 +1,103 @@
-@if (!modeEdition()) {
-  <h1>Ajouter un guide</h1>
-  <p>Le formulaire d'ajout viendra ici.</p>
-} @else if (guide(); as g) {
-  <h1>Modifier la fiche de {{ g.prenom }} {{ g.nom }}</h1>
-  <p>Le formulaire pré-rempli viendra ici.</p>
+@if (introuvable) {
+  <section class="vide">
+    <h1>Ce guide n'existe pas</h1>
+    <p>La fiche demandée a peut-être été supprimée.</p>
+    <a routerLink="/guides" class="btn btn-principal">Retour au répertoire</a>
+  </section>
 } @else {
-  <h1>Ce guide n'existe pas</h1>
-  <p>La fiche demandée a peut-être été supprimée.</p>
-}
+  <div class="entete-form">
+    <h1>{{ modeEdition ? 'Modifier la fiche de ' + guide?.prenom + ' ' + guide?.nom : 'Ajouter un guide' }}</h1>
+    <a routerLink="/guides">← Retour au répertoire</a>
+  </div>
 
-<a routerLink="/guides">← Retour au répertoire</a>
+  <form [formGroup]="form" (ngSubmit)="enregistrer()" novalidate class="carte">
+    @if (erreurResume) {
+      <p class="resume-erreur" role="alert">{{ erreurResume }}</p>
+    }
+
+    <div class="champ">
+      <label for="prenom">Prénom <span class="requis" aria-hidden="true">*</span></label>
+      <input id="prenom" type="text" formControlName="prenom" autocomplete="off"
+             [attr.aria-invalid]="!!erreur('prenom')" aria-describedby="err-prenom">
+      <span class="erreur" id="err-prenom">{{ erreur('prenom') }}</span>
+    </div>
+
+    <div class="champ">
+      <label for="nom">Nom <span class="requis" aria-hidden="true">*</span></label>
+      <input id="nom" type="text" formControlName="nom" autocomplete="off"
+             [attr.aria-invalid]="!!erreur('nom')" aria-describedby="err-nom">
+      <span class="erreur" id="err-nom">{{ erreur('nom') }}</span>
+    </div>
+
+    <div class="champ">
+      <label for="email">E-mail <span class="requis" aria-hidden="true">*</span></label>
+      <input id="email" type="email" formControlName="email" autocomplete="off"
+             [attr.aria-invalid]="!!erreur('email')" aria-describedby="aide-email err-email">
+      <span class="aide" id="aide-email">Exemple : prenom.nom&#64;exemple.sn</span>
+      <span class="erreur" id="err-email">{{ erreur('email') }}</span>
+    </div>
+
+    <div class="champ">
+      <label for="telephone">Téléphone <span class="requis" aria-hidden="true">*</span></label>
+      <input id="telephone" type="tel" formControlName="telephone" autocomplete="off"
+             [attr.aria-invalid]="!!erreur('telephone')" aria-describedby="aide-tel err-telephone">
+      <span class="aide" id="aide-tel">9 chiffres commençant par 7 ou 3, ex. 77 123 45 67</span>
+      <span class="erreur" id="err-telephone">{{ erreur('telephone') }}</span>
+    </div>
+
+    <div class="champ">
+      <label for="region">Région <span class="requis" aria-hidden="true">*</span></label>
+      <select id="region" formControlName="region"
+              [attr.aria-invalid]="!!erreur('region')" aria-describedby="err-region">
+        <option value="">Choisir une région…</option>
+        @for (r of regions; track r) {
+          <option [value]="r">{{ r }}</option>
+        }
+      </select>
+      <span class="erreur" id="err-region">{{ erreur('region') }}</span>
+    </div>
+
+    <div class="champ">
+      <label for="specialite">Spécialité <span class="requis" aria-hidden="true">*</span></label>
+      <input id="specialite" type="text" formControlName="specialite" autocomplete="off"
+             [attr.aria-invalid]="!!erreur('specialite')" aria-describedby="err-specialite">
+      <span class="erreur" id="err-specialite">{{ erreur('specialite') }}</span>
+    </div>
+
+    <div class="champ">
+      <label for="note">Note sur 5</label>
+      <input id="note" type="number" formControlName="note" min="0" max="5" step="0.1"
+             [attr.aria-invalid]="!!erreur('note')" aria-describedby="err-note">
+      <span class="erreur" id="err-note">{{ erreur('note') }}</span>
+    </div>
+
+    <fieldset class="champ">
+      <legend>Statut <span class="requis" aria-hidden="true">*</span></legend>
+      <div class="choix">
+        @for (s of statuts; track s; let i = $index) {
+          <label for="statut-{{ i }}">
+            <input type="radio" id="statut-{{ i }}" formControlName="statut" [value]="s"> {{ s }}
+          </label>
+        }
+      </div>
+    </fieldset>
+
+    <fieldset class="champ pleine-largeur">
+      <legend>Langues parlées</legend>
+      <div class="choix">
+        @for (l of langues; track l; let i = $index) {
+          <label for="langue-{{ i }}">
+            <input type="checkbox" id="langue-{{ i }}"
+                   [checked]="form.controls.langues.value.includes(l)"
+                   (change)="basculerLangue(l, $any($event.target).checked)"> {{ l }}
+          </label>
+        }
+      </div>
+    </fieldset>
+
+    <div class="actions pleine-largeur">
+      <a routerLink="/guides" class="btn">Annuler</a>
+      <button type="submit" class="btn btn-principal">Enregistrer</button>
+    </div>
+  </form>
+}
