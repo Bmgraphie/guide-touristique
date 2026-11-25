@@ -1,10 +1,124 @@
-<h1>Répertoire des guides</h1>
-<p>{{ guides().length }} guides enregistrés.</p>
+<h1 class="sr-only">Répertoire des guides</h1>
 
-<ul>
-  @for (guide of guides(); track guide.id) {
-    <li>{{ guide.prenom }} {{ guide.nom }} · {{ guide.region }} · {{ guide.specialite }} · {{ guide.statut }}</li>
-  } @empty {
-    <li>Aucun guide pour l'instant.</li>
+<!-- Indicateurs -->
+<section class="stats" aria-label="Indicateurs">
+  <div class="stat"><strong>{{ tous().length }}</strong><span>Guides enregistrés</span></div>
+  <div class="stat"><strong>{{ compteParStatut()['Disponible'] }}</strong><span><i class="point badge-dispo"></i>Disponibles</span></div>
+  <div class="stat"><strong>{{ compteParStatut()['En mission'] }}</strong><span><i class="point badge-mission"></i>En mission</span></div>
+  <div class="stat"><strong>{{ compteParStatut()['Inactif'] }}</strong><span><i class="point badge-inactif"></i>Inactifs</span></div>
+</section>
+
+<section class="carte">
+  <!-- Recherche et filtres -->
+  <div class="outils" role="search">
+    <div class="champ recherche">
+      <label for="recherche">Rechercher</label>
+      <input id="recherche" type="search" [(ngModel)]="recherche"
+             placeholder="Nom, prénom ou spécialité" autocomplete="off">
+    </div>
+    <div class="champ">
+      <label for="filtre-region">Région</label>
+      <select id="filtre-region" [(ngModel)]="region">
+        <option value="">Toutes les régions</option>
+        @for (r of regions; track r) { <option [value]="r">{{ r }}</option> }
+      </select>
+    </div>
+    <div class="champ">
+      <label for="filtre-statut">Statut</label>
+      <select id="filtre-statut" [(ngModel)]="statut">
+        <option value="">Tous les statuts</option>
+        @for (s of statuts; track s) { <option [value]="s">{{ s }}</option> }
+      </select>
+    </div>
+    <button type="button" class="btn" (click)="reinitialiser()" [disabled]="!filtresActifs()">Réinitialiser</button>
+  </div>
+
+  <p class="compteur" aria-live="polite">
+    @if (filtresActifs()) {
+      {{ guidesFiltres().length }} guide(s) sur {{ tous().length }} correspondent à votre recherche
+    } @else {
+      {{ guidesFiltres().length }} guide(s) affiché(s)
+    }
+  </p>
+
+  <!-- État vide n° 1 : le répertoire est vide -->
+  @if (tous().length === 0) {
+    <div class="vide">
+      <h2>Aucun guide pour l'instant</h2>
+      <p>Le répertoire est vide. Ajoutez une première fiche.</p>
+      <a routerLink="/guides/nouveau" class="btn btn-principal">+ Ajouter un guide</a>
+    </div>
   }
-</ul>
+  <!-- État vide n° 2 : la recherche ne donne rien -->
+  @else if (guidesFiltres().length === 0) {
+    <div class="vide">
+      <h2>Aucun guide ne correspond</h2>
+      <p>Aucun résultat pour ces critères. Vérifiez l'orthographe ou élargissez les filtres.</p>
+      <button type="button" class="btn" (click)="reinitialiser()">Effacer les filtres</button>
+    </div>
+  }
+  <!-- Le tableau -->
+  @else {
+    <div class="tableau-conteneur">
+      <table>
+        <caption class="sr-only">Liste des guides, triable par nom ou par note</caption>
+        <thead>
+          <tr>
+            <th scope="col" [attr.aria-sort]="ariaSort('nom')">
+              <button type="button" class="tri" (click)="trierPar('nom')">
+                Guide {{ tri() === 'nom' ? (sens() === 1 ? '↑' : '↓') : '' }}
+              </button>
+            </th>
+            <th scope="col">Région</th>
+            <th scope="col">Spécialité</th>
+            <th scope="col" [attr.aria-sort]="ariaSort('note')">
+              <button type="button" class="tri" (click)="trierPar('note')">
+                Note {{ tri() === 'note' ? (sens() === 1 ? '↑' : '↓') : '' }}
+              </button>
+            </th>
+            <th scope="col">Statut</th>
+            <th scope="col"><span class="sr-only">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (g of guidesFiltres(); track g.id) {
+            <tr>
+              <td class="qui" data-label="Guide">
+                <strong>{{ g.prenom }} {{ g.nom }}</strong>
+                <small>{{ g.email }} · <span class="sans-coupure">{{ g.telephone }}</span></small>
+                @if (g.langues.length) { <small>{{ g.langues.join(', ') }}</small> }
+              </td>
+              <td data-label="Région">{{ g.region }}</td>
+              <td data-label="Spécialité">{{ g.specialite }}</td>
+              <td data-label="Note" class="sans-coupure">
+                <span class="etoiles" aria-hidden="true">{{ g.note | note:'etoiles' }}</span>
+                {{ g.note | note }}
+              </td>
+              <td data-label="Statut"><span class="badge" [class]="classeStatut(g.statut)">{{ g.statut }}</span></td>
+              <td class="cellule-actions">
+                <div class="actions">
+                  <a [routerLink]="['/guides', g.id, 'modifier']" class="btn btn-petit"
+                     [attr.aria-label]="'Modifier la fiche de ' + g.prenom + ' ' + g.nom">Modifier</a>
+                  <button type="button" class="btn btn-petit btn-danger-texte" (click)="demanderSuppression(g)"
+                          [attr.aria-label]="'Supprimer la fiche de ' + g.prenom + ' ' + g.nom">Supprimer</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>
+
+<!-- Boîte de confirmation avant suppression (Échap la ferme) -->
+<dialog #confirmation aria-labelledby="titre-confirmation" (close)="aSupprimer.set(null)">
+  <h2 id="titre-confirmation">Supprimer cette fiche ?</h2>
+  @if (aSupprimer(); as g) {
+    <p>La fiche de <strong>{{ g.prenom }} {{ g.nom }}</strong> ({{ g.region }}) sera définitivement retirée du répertoire.</p>
+  }
+  <div class="actions">
+    <button type="button" class="btn" (click)="fermerDialogue()" autofocus>Annuler</button>
+    <button type="button" class="btn btn-danger" (click)="confirmerSuppression()">Supprimer</button>
+  </div>
+</dialog>
