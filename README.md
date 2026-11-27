@@ -24,6 +24,7 @@ Projet réalisé dans le cadre de l'évaluation finale Angular. **Toutes les don
 - **Suppression avec confirmation** dans une boîte de dialogue
 - **Messages de succès et d'erreur** après chaque action
 - **États vides** : « Aucun guide pour l'instant » et « Aucun guide ne correspond »
+- **Thème « Teranga »** bleu nuit et doré, avec des animations CSS (apparition des écrans, secousse des champs en erreur, message qui glisse), désactivées si le système demande de réduire les animations
 - **Accessibilité** : un label par champ, navigation complète au clavier, lien d'évitement, messages lus par les lecteurs d'écran
 
 | Formulaire avec erreurs de validation | Affichage mobile |
@@ -185,5 +186,7 @@ Le projet a été réalisé à trois avec Git et GitHub. Chaque membre a travail
 - [Vitest](https://vitest.dev), lanceur de tests intégré à Angular
 - [angular-cli-ghpages](https://www.npmjs.com/package/angular-cli-ghpages), pour la mise en ligne sur GitHub Pages
 - Guide pratique « pas à pas » Angular fourni par l'enseignant
-- Aucune bibliothèque d'interface externe : tous les styles sont écrits en CSS
+- [Plus Jakarta Sans](https://fontsource.org/fonts/plus-jakarta-sans) (licence OFL), police installée avec le paquet npm `@fontsource-variable/plus-jakarta-sans` : elle fonctionne aussi sans connexion
+- [Material Symbols](https://fonts.google.com/icons) (licence Apache 2.0), icônes copiées en SVG dans `src/index.html`
+- Aucune bibliothèque de composants d'interface : tous les styles et animations sont écrits en CSS
 - Données : personnes, e-mails et numéros **entièrement fictifs**

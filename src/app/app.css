@@ -1,81 +1,112 @@
+/* ===== Mise en page : barre latérale + contenu ===== */
+.coque {
+  display: grid; grid-template-columns: 96px 1fr; min-height: 100vh;
+  /* la colonne bleu nuit descend jusqu'en bas, même sur une longue page */
+  background: linear-gradient(to right, var(--nuit) 96px, transparent 96px);
+}
+
+.rail {
+  position: sticky; top: 0; height: 100vh;
+  display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 18px 0;
+  background: var(--nuit); color: var(--nuit-texte);
+}
+.rail-logo {
+  width: 52px; height: 52px; border-radius: var(--rayon-l);
+  display: grid; place-items: center;
+  background: var(--nuit-2); color: var(--or);
+  transition: transform .3s var(--courbe);
+}
+.rail-logo:hover { transform: rotate(-6deg) scale(1.06); }
+.rail nav { display: flex; flex-direction: column; gap: 14px; }
+
+/* Élément de navigation : icône dans une « pilule » + texte */
+.rail-item {
+  display: flex; flex-direction: column; align-items: center; gap: 4px; width: 80px;
+  font-size: 12px; font-weight: 600; text-decoration: none; color: inherit;
+}
+.pilule {
+  width: 40px; height: 32px; border-radius: 16px; display: grid; place-items: center;
+  transition: background .25s, width .25s var(--courbe), color .25s;
+}
+.rail-item:hover .pilule { background: rgba(255, 255, 255, .08); }
+.rail-item.actif { color: #fff; }
+.rail-item.actif .pilule { width: 56px; background: var(--or); color: var(--sur-or); }
+
+.principal { min-width: 0; display: flex; flex-direction: column; }
+
+/* ===== En-tête ===== */
 .entete {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 20px;
-  background: #ffffff;
-  border-bottom: 1px solid #d9e1dd;
+  position: sticky; top: 0; z-index: 5;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 14px 32px;
+  background: color-mix(in srgb, var(--fond) 85%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--bordure);
 }
-.marque {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #17221f;
-  text-decoration: none;
-}
-.bouton {
-  background: #0b6b58;
-  color: #ffffff;
-  padding: 8px 14px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-}
-.contenu {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 20px;
-}
+.marque { display: flex; align-items: center; gap: 12px; color: var(--texte); text-decoration: none; font-size: 1.15rem; font-weight: 800; }
+.marque small { display: block; font-size: 12.5px; font-weight: 500; color: var(--texte-doux); }
+.marque-logo { display: none; width: 40px; height: 40px; border-radius: var(--rayon-m); place-items: center; background: var(--nuit); color: var(--or); }
 
-/* Message flash (succès / erreur) */
-.zone-message {
-  position: fixed;
-  left: 50%;
-  bottom: 20px;
-  transform: translateX(-50%);
-  max-width: calc(100% - 32px);
-  z-index: 10;
-}
-.message {
-  margin: 0;
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  background: #1f7a3d;
-  color: #ffffff;
-  padding: 10px 14px;
-  border-radius: 10px;
-  font-weight: 600;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
-}
-.message-erreur { background: #b42318; }
-.message button {
-  background: transparent;
-  border: 0;
-  color: inherit;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-
-/* Lien d'évitement : invisible, il apparaît au premier appui sur Tab (accessibilité clavier) */
-.lien-evitement {
-  position: absolute;
-  left: 12px;
-  top: -60px;
-  background: #0b6b58;
-  color: #ffffff;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-weight: 600;
-  z-index: 20;
-}
-.lien-evitement:focus { top: 12px; }
+.contenu { width: 100%; max-width: 1240px; margin: 0 auto; padding: 24px 32px 48px; }
 .contenu:focus { outline: none; }
 
-/* Petits écrans : en-tête sur deux lignes, bouton pleine largeur */
-@media (max-width: 480px) {
+/* ===== Navigation mobile (cachée sur ordinateur) ===== */
+.nav-mobile { display: none; }
+
+/* ===== Message flash (succès / erreur) ===== */
+.zone-message {
+  position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+  width: max-content; max-width: calc(100% - 32px); z-index: 50;
+}
+.message {
+  margin: 0; display: flex; align-items: center; gap: 12px;
+  padding: 8px 8px 8px 12px; min-height: 52px; border-radius: var(--rayon-m);
+  background: var(--nuit); color: #fff; font-weight: 600; font-size: 14px;
+  border-left: 4px solid var(--or);
+  box-shadow: var(--ombre-3);
+  animation: monter .3s var(--courbe);
+}
+.message-icone {
+  width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; flex: none;
+  background: var(--ok); color: #fff; font-weight: 800;
+  animation: surgir .4s var(--courbe) .1s both;
+}
+.message-texte { animation: glisser .3s ease-out; }
+.message-erreur { border-left-color: var(--erreur); }
+.message-erreur .message-icone { background: var(--erreur); }
+.message button {
+  width: 36px; height: 36px; border-radius: 50%; border: 0; flex: none;
+  background: transparent; color: var(--nuit-texte); font-size: 1.3rem; cursor: pointer;
+}
+.message button:hover { background: rgba(255, 255, 255, .1); color: #fff; }
+
+/* ===== Lien d'évitement : invisible, il apparaît au premier appui sur Tab ===== */
+.lien-evitement {
+  position: absolute; left: 12px; top: -60px; z-index: 60;
+  background: var(--or); color: var(--sur-or);
+  padding: 10px 16px; border-radius: var(--rayon-s); font-weight: 700; text-decoration: none;
+}
+.lien-evitement:focus { top: 12px; }
+
+/* ===== Tablette et mobile ===== */
+@media (max-width: 840px) {
+  .coque { grid-template-columns: 1fr; background: none; }
+  .rail { display: none; }
   .entete { padding: 12px 16px; }
-  .bouton { width: 100%; text-align: center; }
-  .contenu { padding: 16px; }
+  .marque-logo { display: grid; }
+  .ajouter { display: none; }   /* l'ajout passe par la barre du bas */
+  .contenu { padding: 16px 16px 112px; }
+
+  .nav-mobile {
+    display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+    height: 72px; padding-bottom: env(safe-area-inset-bottom);
+    justify-content: space-around; align-items: center;
+    background: var(--nuit); color: var(--nuit-texte);
+  }
+  .nav-mobile .rail-item { flex: 1; width: auto; }
+  .zone-message { bottom: 88px; }
+}
+@media (max-width: 420px) {
+  .marque { font-size: 1rem; }
+  .marque small { display: none; }
 }

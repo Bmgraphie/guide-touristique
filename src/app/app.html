@@ -1,19 +1,68 @@
 <a class="lien-evitement" href="#contenu" (click)="allerAuContenu($event)">Aller au contenu principal</a>
 
-<header class="entete">
-  <a routerLink="/guides" class="marque">{{ titre }}</a>
-  <a routerLink="/guides/nouveau" class="bouton">+ Ajouter un guide</a>
-</header>
+<div class="coque">
+  <!-- Barre latérale (ordinateur) -->
+  <aside class="rail">
+    <a routerLink="/guides" class="rail-logo" aria-label="Accueil : répertoire des guides">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 21v-8"/><path d="M9 21h6"/>
+        <path d="M12 13c-1.2-2.6-3.6-3.4-6-3 .2 2.6 2.6 4 6 3z"/><path d="M12 13c1.2-2.6 3.6-3.4 6-3-.2 2.6-2.6 4-6 3z"/>
+        <path d="M12 13c0-3 1.4-5 3.5-6.5M12 13c0-3-1.4-5-3.5-6.5"/><circle cx="12" cy="4.5" r="1.6"/>
+      </svg>
+    </a>
+    <nav aria-label="Navigation principale">
+      <a class="rail-item" routerLink="/guides" routerLinkActive="actif" ariaCurrentWhenActive="page"
+         [routerLinkActiveOptions]="{ exact: true }">
+        <span class="pilule"><svg class="icone" aria-hidden="true"><use href="#i-groups"></use></svg></span>Guides
+      </a>
+      <a class="rail-item" routerLink="/guides/nouveau" routerLinkActive="actif" ariaCurrentWhenActive="page">
+        <span class="pilule"><svg class="icone" aria-hidden="true"><use href="#i-add"></use></svg></span>Ajouter
+      </a>
+    </nav>
+  </aside>
 
-<main class="contenu" id="contenu" tabindex="-1">
-  <router-outlet />
-</main>
+  <div class="principal">
+    <header class="entete">
+      <a routerLink="/guides" class="marque">
+        <span class="marque-logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 21v-8"/><path d="M9 21h6"/>
+            <path d="M12 13c-1.2-2.6-3.6-3.4-6-3 .2 2.6 2.6 4 6 3z"/><path d="M12 13c1.2-2.6 3.6-3.4 6-3-.2 2.6-2.6 4-6 3z"/>
+            <path d="M12 13c0-3 1.4-5 3.5-6.5M12 13c0-3-1.4-5-3.5-6.5"/><circle cx="12" cy="4.5" r="1.6"/>
+          </svg>
+        </span>
+        <span>{{ titre }}<small>Office du tourisme · Répertoire</small></span>
+      </a>
+      <a routerLink="/guides/nouveau" class="btn btn-or ajouter">
+        <svg class="icone" aria-hidden="true"><use href="#i-add"></use></svg>Ajouter un guide
+      </a>
+    </header>
+
+    <main class="contenu" id="contenu" tabindex="-1">
+      <router-outlet />
+    </main>
+  </div>
+</div>
+
+<!-- Barre de navigation (mobile) -->
+<nav class="nav-mobile" aria-label="Navigation principale (mobile)">
+  <a class="rail-item" routerLink="/guides" routerLinkActive="actif" ariaCurrentWhenActive="page"
+     [routerLinkActiveOptions]="{ exact: true }">
+    <span class="pilule"><svg class="icone" aria-hidden="true"><use href="#i-groups"></use></svg></span>Guides
+  </a>
+  <a class="rail-item" routerLink="/guides/nouveau" routerLinkActive="actif" ariaCurrentWhenActive="page">
+    <span class="pilule"><svg class="icone" aria-hidden="true"><use href="#i-add"></use></svg></span>Ajouter
+  </a>
+</nav>
 
 <!-- Message de succès ou d'erreur, annoncé aux lecteurs d'écran -->
 <div class="zone-message" role="status" aria-live="polite">
   @if (notification.message(); as m) {
     <p class="message" [class.message-erreur]="m.type === 'erreur'">
-      {{ m.texte }}
+      <span class="message-icone" aria-hidden="true">{{ m.type === 'erreur' ? '!' : '✓' }}</span>
+      <span class="message-texte">{{ m.texte }}</span>
       <button type="button" (click)="notification.fermer()" aria-label="Fermer le message">×</button>
     </p>
   }
