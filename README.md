@@ -173,10 +173,10 @@ Le projet a été réalisé à trois avec Git et GitHub. Chaque membre a travail
 
 | Membre | Branche | Partie |
 | --- | --- | --- |
-| *Baye Matar Thiam* | `main` | Création du projet, modèle, données de démo, service, routes |
+| Baye Matar Thiam | `main` | Création du projet, modèle, données de démo, service, routes |
 | Makhtar Sarr | `feature/liste` | Répertoire, recherche, filtres, tri, pipe, suppression |
-| *Aminata Diene* | `feature/formulaire` | Formulaire, validations, messages de succès et d'erreur |
-| *Baye Matar Thiam* | `feature/qualite` | Accessibilité, responsive, README, captures, mise en ligne |
+| Aminata Diene | `feature/formulaire` | Formulaire, validations, messages de succès et d'erreur |
+| Baye Matar Thiam | `feature/qualite` | Accessibilité, responsive, README, captures, mise en ligne |
 
 ## Ressources utilisées
 
