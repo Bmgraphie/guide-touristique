@@ -1,11 +1,30 @@
-<h1 class="sr-only">Répertoire des guides</h1>
+<!-- Bandeau d'accueil (décor animé : baobab, soleil, vague) -->
+<section class="bandeau">
+  <div class="bandeau-texte">
+    <p class="surtitre">Teranga · Sénégal</p>
+    <h1>Répertoire des <em>guides touristiques</em></h1>
+    <p>Recherchez, filtrez et tenez à jour les fiches des guides, de Saint-Louis à Kédougou.</p>
+  </div>
+      <svg class="bandeau-art" viewBox="0 0 360 200" aria-hidden="true">
+        <circle class="twinkle" cx="40" cy="30" r="2" fill="var(--gold-soft)"/><circle class="twinkle" style="animation-delay:.8s" cx="96" cy="54" r="1.5" fill="var(--gold-soft)"/><circle class="twinkle" style="animation-delay:1.6s" cx="330" cy="120" r="1.8" fill="var(--gold-soft)"/><circle class="twinkle" style="animation-delay:2.2s" cx="214" cy="22" r="1.5" fill="var(--gold-soft)"/>
+        <g class="sun"><circle cx="276" cy="62" r="44" fill="none" stroke="var(--gold)" stroke-width="2" opacity=".45"/><circle cx="276" cy="62" r="54" fill="none" stroke="var(--gold)" stroke-width="1" opacity=".2"/><circle cx="276" cy="62" r="32" fill="var(--gold)"/></g>
+                <g class="baobab">
+          <path d="M150 112 C146 96 140 90 128 84 M150 112 C154 94 160 88 174 82 M150 120 C140 112 128 112 116 116 M150 120 C162 110 176 110 188 114" stroke="var(--gold-soft)" stroke-width="8" stroke-linecap="round" fill="none"/>
+          <ellipse cx="128" cy="76" rx="30" ry="16" fill="var(--gold)"/><ellipse cx="176" cy="74" rx="34" ry="18" fill="var(--gold)"/>
+          <ellipse cx="114" cy="110" rx="20" ry="11" fill="var(--gold)" opacity=".8"/><ellipse cx="190" cy="108" rx="22" ry="11" fill="var(--gold)" opacity=".8"/>
+          <path d="M150 112 V172" stroke="var(--gold-soft)" stroke-width="16" stroke-linecap="round"/>
+        </g>
+        <path d="M232 174 l18 -34 l18 34 z" fill="var(--gold-soft)" opacity=".55"/><path d="M262 174 l14 -26 l14 26 z" fill="var(--gold-soft)" opacity=".35"/>
+      </svg>
+      <svg class="bandeau-vague" viewBox="0 0 2400 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30 Q150 0 300 30 T600 30 T900 30 T1200 30 T1500 30 T1800 30 T2100 30 T2400 30 V60 H0Z" fill="var(--hero-wave)"/><path d="M0 30 Q150 0 300 30 T600 30 T900 30 T1200 30 T1500 30 T1800 30 T2100 30 T2400 30" fill="none" stroke="var(--gold)" stroke-width="2" opacity=".7"/></svg>
+</section>
 
 <!-- Indicateurs -->
 <section class="stats" aria-label="Indicateurs">
-  <div class="stat"><strong>{{ tous().length }}</strong><span>Guides enregistrés</span></div>
-  <div class="stat"><strong>{{ compteParStatut()['Disponible'] }}</strong><span><i class="point badge-dispo"></i>Disponibles</span></div>
-  <div class="stat"><strong>{{ compteParStatut()['En mission'] }}</strong><span><i class="point badge-mission"></i>En mission</span></div>
-  <div class="stat"><strong>{{ compteParStatut()['Inactif'] }}</strong><span><i class="point badge-inactif"></i>Inactifs</span></div>
+  <div class="stat" style="--i: 0"><span class="stat-libelle">Guides enregistrés</span><strong>{{ tous().length }}</strong></div>
+  <div class="stat stat-dispo" style="--i: 1"><span class="stat-libelle"><i class="point"></i>Disponibles</span><strong>{{ compteParStatut()['Disponible'] }}</strong></div>
+  <div class="stat stat-mission" style="--i: 2"><span class="stat-libelle"><i class="point"></i>En mission</span><strong>{{ compteParStatut()['En mission'] }}</strong></div>
+  <div class="stat stat-inactif" style="--i: 3"><span class="stat-libelle"><i class="point"></i>Inactifs</span><strong>{{ compteParStatut()['Inactif'] }}</strong></div>
 </section>
 
 <section class="carte">
@@ -13,8 +32,11 @@
   <div class="outils" role="search">
     <div class="champ recherche">
       <label for="recherche">Rechercher</label>
-      <input id="recherche" type="search" [(ngModel)]="recherche"
-             placeholder="Nom, prénom ou spécialité" autocomplete="off">
+      <div class="recherche-boite">
+        <svg class="icone" aria-hidden="true"><use href="#i-search"></use></svg>
+        <input id="recherche" type="search" [(ngModel)]="recherche"
+               placeholder="Nom, prénom ou spécialité" autocomplete="off">
+      </div>
     </div>
     <div class="champ">
       <label for="filtre-region">Région</label>
@@ -44,14 +66,16 @@
   <!-- État vide n° 1 : le répertoire est vide -->
   @if (tous().length === 0) {
     <div class="vide">
+      <span class="vide-icone" aria-hidden="true"><svg class="icone"><use href="#i-groups"></use></svg></span>
       <h2>Aucun guide pour l'instant</h2>
       <p>Le répertoire est vide. Ajoutez une première fiche.</p>
-      <a routerLink="/guides/nouveau" class="btn btn-principal">+ Ajouter un guide</a>
+      <a routerLink="/guides/nouveau" class="btn btn-or">+ Ajouter un guide</a>
     </div>
   }
   <!-- État vide n° 2 : la recherche ne donne rien -->
   @else if (guidesFiltres().length === 0) {
     <div class="vide">
+      <span class="vide-icone" aria-hidden="true"><svg class="icone"><use href="#i-search"></use></svg></span>
       <h2>Aucun guide ne correspond</h2>
       <p>Aucun résultat pour ces critères. Vérifiez l'orthographe ou élargissez les filtres.</p>
       <button type="button" class="btn" (click)="reinitialiser()">Effacer les filtres</button>
@@ -81,12 +105,17 @@
           </tr>
         </thead>
         <tbody>
-          @for (g of guidesFiltres(); track g.id) {
-            <tr>
+          @for (g of guidesFiltres(); track g.id; let i = $index) {
+            <tr [style.--i]="i">
               <td class="qui" data-label="Guide">
-                <strong>{{ g.prenom }} {{ g.nom }}</strong>
-                <small>{{ g.email }} · <span class="sans-coupure">{{ g.telephone }}</span></small>
-                @if (g.langues.length) { <small>{{ g.langues.join(', ') }}</small> }
+                <div class="qui-boite">
+                  <span class="avatar" aria-hidden="true">{{ g.prenom.charAt(0) }}{{ g.nom.charAt(0) }}</span>
+                  <span>
+                    <strong>{{ g.prenom }} {{ g.nom }}</strong>
+                    <small>{{ g.email }} · <span class="sans-coupure">{{ g.telephone }}</span></small>
+                    @if (g.langues.length) { <small>{{ g.langues.join(', ') }}</small> }
+                  </span>
+                </div>
               </td>
               <td data-label="Région">{{ g.region }}</td>
               <td data-label="Spécialité">{{ g.specialite }}</td>
@@ -98,9 +127,11 @@
               <td class="cellule-actions">
                 <div class="actions">
                   <a [routerLink]="['/guides', g.id, 'modifier']" class="btn btn-petit"
-                     [attr.aria-label]="'Modifier la fiche de ' + g.prenom + ' ' + g.nom">Modifier</a>
+                     [attr.aria-label]="'Modifier la fiche de ' + g.prenom + ' ' + g.nom">
+                    <svg class="icone" aria-hidden="true"><use href="#i-edit"></use></svg>Modifier</a>
                   <button type="button" class="btn btn-petit btn-danger-texte" (click)="demanderSuppression(g)"
-                          [attr.aria-label]="'Supprimer la fiche de ' + g.prenom + ' ' + g.nom">Supprimer</button>
+                          [attr.aria-label]="'Supprimer la fiche de ' + g.prenom + ' ' + g.nom">
+                    <svg class="icone" aria-hidden="true"><use href="#i-delete"></use></svg>Supprimer</button>
                 </div>
               </td>
             </tr>
@@ -113,6 +144,7 @@
 
 <!-- Boîte de confirmation avant suppression (Échap la ferme) -->
 <dialog #confirmation aria-labelledby="titre-confirmation" (close)="aSupprimer.set(null)">
+  <span class="dialogue-icone" aria-hidden="true"><svg class="icone"><use href="#i-delete"></use></svg></span>
   <h2 id="titre-confirmation">Supprimer cette fiche ?</h2>
   @if (aSupprimer(); as g) {
     <p>La fiche de <strong>{{ g.prenom }} {{ g.nom }}</strong> ({{ g.region }}) sera définitivement retirée du répertoire.</p>

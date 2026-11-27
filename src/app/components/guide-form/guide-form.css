@@ -1,35 +1,79 @@
-.entete-form { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-.entete-form h1 { margin: 0; font-size: 1.5rem; }
+/* ===== En-tête du formulaire ===== */
+.entete-form { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-end; justify-content: space-between; margin-bottom: 18px; }
+.surtitre { margin: 0 0 4px; font-size: 12.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--or-texte); }
+.entete-form h1 { margin: 0; font-size: 1.75rem; font-weight: 800; }
+.intro { margin: 6px 0 0; color: var(--texte-doux); font-size: 14px; }
+.retour { color: var(--nuit-2); font-weight: 600; text-decoration: none; padding: 6px 0; }
+.retour:hover { text-decoration: underline; }
 
+/* ===== Carte du formulaire ===== */
 .carte {
-  background: #fff; border: 1px solid #d9e1dd; border-radius: 10px; padding: 20px;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 18px 22px; padding: 28px;
+  background: var(--surface); border: 1px solid var(--bordure); border-radius: var(--rayon-l);
+  border-top: 4px solid var(--or); box-shadow: var(--ombre-1);
 }
 .pleine-largeur, .resume-erreur { grid-column: 1 / -1; }
 
-.champ { display: grid; gap: 5px; align-content: start; }
-label, legend { font-weight: 600; font-size: 0.9rem; }
+/* Les champs apparaissent l'un après l'autre */
+.carte > * { animation: monter .45s var(--courbe) both; }
+.carte > :nth-child(2) { animation-delay: .03s; } .carte > :nth-child(3) { animation-delay: .06s; }
+.carte > :nth-child(4) { animation-delay: .09s; } .carte > :nth-child(5) { animation-delay: .12s; }
+.carte > :nth-child(6) { animation-delay: .15s; } .carte > :nth-child(7) { animation-delay: .18s; }
+.carte > :nth-child(8) { animation-delay: .21s; } .carte > :nth-child(9) { animation-delay: .24s; }
+.carte > :nth-child(n + 10) { animation-delay: .27s; }
+
+.champ { display: grid; gap: 6px; align-content: start; }
+label, legend { font-weight: 700; font-size: 13.5px; }
 input[type='text'], input[type='email'], input[type='tel'], input[type='number'], select {
-  font: inherit; padding: 0 10px; height: 40px; border: 1px solid #c9d3cf; border-radius: 8px; background: #f8faf9; width: 100%;
+  height: 46px; width: 100%; padding: 0 14px;
+  border: 1px solid var(--bordure); border-radius: var(--rayon-m); background: var(--fond);
+  transition: border-color .15s, box-shadow .2s, background .2s;
 }
-input[aria-invalid='true'], select[aria-invalid='true'] { border-color: #b42318; background: #fdecea; }
+input:hover, select:hover { border-color: var(--texte-doux); }
+input:focus, select:focus { outline: none; border-color: var(--nuit-2); background: var(--surface); box-shadow: 0 0 0 4px rgba(212, 166, 42, .25); }
 
-.aide { font-size: 0.8rem; color: #5b6b66; }
-.erreur { font-size: 0.85rem; color: #b42318; }
+/* Champ en erreur : bordure rouge et petite secousse quand l'erreur apparaît */
+input[aria-invalid='true'], select[aria-invalid='true'] {
+  border-color: var(--erreur); background: var(--erreur-fond);
+  animation: secouer .4s ease;
+}
+input[aria-invalid='true']:focus, select[aria-invalid='true']:focus { box-shadow: 0 0 0 4px rgba(179, 38, 30, .18); }
+
+.aide { font-size: 12.5px; color: var(--texte-doux); }
+.erreur { font-size: 13px; font-weight: 600; color: var(--erreur); animation: glisser .25s ease-out; }
 .erreur:empty { display: none; }
-.requis { color: #b42318; }
-.resume-erreur { margin: 0; background: #fdecea; color: #b42318; padding: 10px 14px; border-radius: 8px; font-weight: 600; }
+.requis { color: var(--erreur); }
+.resume-erreur {
+  margin: 0; padding: 12px 16px; border-radius: var(--rayon-m);
+  background: var(--erreur-fond); color: var(--erreur); font-weight: 700;
+  border-left: 4px solid var(--erreur);
+}
 
-fieldset { border: 1px solid #d9e1dd; border-radius: 8px; padding: 10px 12px; margin: 0; }
-.choix { display: flex; flex-wrap: wrap; gap: 8px 16px; }
-.choix label { font-weight: 400; display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+/* Statut et langues */
+fieldset { border: 1px solid var(--bordure); border-radius: var(--rayon-m); padding: 12px 14px 14px; margin: 0; }
+legend { padding: 0 6px; }
+.choix { display: flex; flex-wrap: wrap; gap: 8px; }
+.choix label {
+  display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px;
+  border: 1px solid var(--bordure); border-radius: 18px; font-weight: 600; font-size: 13.5px; cursor: pointer;
+  transition: background .2s, border-color .2s, color .2s;
+}
+.choix label:hover { background: var(--surface-2); }
+.choix label:has(input:checked) { background: var(--nuit-2); border-color: var(--nuit-2); color: #fff; }
+.choix input { margin: 0; accent-color: var(--or); }
 
-.actions { display: flex; gap: 10px; justify-content: flex-end; border-top: 1px solid #d9e1dd; padding-top: 16px; }
-.btn { font: inherit; font-weight: 600; padding: 9px 16px; border-radius: 8px; border: 1px solid #c9d3cf; background: #fff; color: #17221f; text-decoration: none; cursor: pointer; }
-.btn-principal { background: #0b6b58; border-color: #0b6b58; color: #fff; }
-.vide { text-align: center; padding: 40px 0; }
+.actions { display: flex; gap: 10px; justify-content: flex-end; border-top: 1px solid var(--bordure); padding-top: 18px; }
+
+/* Guide introuvable */
+.vide { display: grid; justify-items: center; text-align: center; padding: 48px 0; }
+.vide-icone { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; margin-bottom: 12px; background: var(--surface-2); color: var(--nuit-2); }
+.vide-icone .icone { width: 30px; height: 30px; }
+.vide h1 { margin: 0 0 6px; }
+.vide p { color: var(--texte-doux); margin: 0 0 18px; }
 
 /* Mobile : une seule colonne */
 @media (max-width: 700px) {
-  .carte { grid-template-columns: 1fr; }
+  .carte { grid-template-columns: 1fr; padding: 20px; }
+  .entete-form h1 { font-size: 1.4rem; }
+  .actions .btn { flex: 1; }
 }

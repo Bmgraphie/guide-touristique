@@ -1,13 +1,18 @@
 @if (introuvable) {
   <section class="vide">
+    <span class="vide-icone" aria-hidden="true"><svg class="icone"><use href="#i-search"></use></svg></span>
     <h1>Ce guide n'existe pas</h1>
     <p>La fiche demandée a peut-être été supprimée.</p>
     <a routerLink="/guides" class="btn btn-principal">Retour au répertoire</a>
   </section>
 } @else {
   <div class="entete-form">
-    <h1>{{ modeEdition ? 'Modifier la fiche de ' + guide?.prenom + ' ' + guide?.nom : 'Ajouter un guide' }}</h1>
-    <a routerLink="/guides">← Retour au répertoire</a>
+    <div>
+      <p class="surtitre">{{ modeEdition ? 'Modification' : 'Nouvelle fiche' }}</p>
+      <h1>{{ modeEdition ? 'Modifier la fiche de ' + guide?.prenom + ' ' + guide?.nom : 'Ajouter un guide' }}</h1>
+      <p class="intro">Les champs marqués <span class="requis" aria-hidden="true">*</span><span class="sr-only">d'un astérisque</span> sont obligatoires.</p>
+    </div>
+    <a routerLink="/guides" class="retour">← Retour au répertoire</a>
   </div>
 
   <form [formGroup]="form" (ngSubmit)="enregistrer()" novalidate class="carte">
@@ -97,7 +102,7 @@
 
     <div class="actions pleine-largeur">
       <a routerLink="/guides" class="btn">Annuler</a>
-      <button type="submit" class="btn btn-principal">Enregistrer</button>
+      <button type="submit" class="btn btn-or">Enregistrer</button>
     </div>
   </form>
 }

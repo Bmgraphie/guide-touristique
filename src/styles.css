@@ -1,14 +1,121 @@
-/* Styles globaux, partagés par toute l'application. */
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: system-ui, "Segoe UI", Roboto, sans-serif;
-  background: #f4f6f4;
-  color: #17221f;
+/* =====================================================================
+   Thème « Teranga » : bleu nuit et doré.
+   Styles globaux partagés par toute l'application (couleurs, boutons,
+   badges, animations). Chaque composant garde ses propres styles.
+   ===================================================================== */
+
+/* Police Plus Jakarta Sans, installée avec npm (@fontsource) :
+   elle fonctionne aussi sans connexion internet. */
+@import '@fontsource-variable/plus-jakarta-sans';
+
+:root {
+  /* Couleurs principales */
+  --nuit: #0f2147;          /* bleu nuit : bandeau, barre latérale */
+  --nuit-2: #1a3263;        /* bleu nuit clair : boutons principaux */
+  --nuit-texte: #b9c6e4;    /* texte secondaire sur fond bleu nuit */
+  --or: #d4a62a;            /* doré : accents, bouton d'ajout */
+  --or-clair: #f3d27a;
+  --or-texte: #7a5a00;      /* doré foncé, lisible sur fond clair */
+  --sur-or: #1f1600;        /* texte posé sur le doré */
+
+  /* Surfaces et texte */
+  --fond: #f5f7fb;
+  --surface: #ffffff;
+  --surface-2: #eef1f8;
+  --bordure: #d9dfea;
+  --texte: #14213d;
+  --texte-doux: #4a5568;
+
+  /* États */
+  --ok: #1f7a46;      --ok-fond: #d8f2e2;
+  --alerte: #8a5a00;  --alerte-fond: #fdeec8;
+  --neutre: #545d6b;  --neutre-fond: #e9ecf2;
+  --erreur: #b3261e;  --erreur-fond: #fde7e4;
+
+  /* Formes */
+  --rayon-s: 8px;
+  --rayon-m: 12px;
+  --rayon-l: 18px;
+  --rayon-xl: 28px;
+  --ombre-1: 0 1px 2px rgba(15, 33, 71, .10), 0 1px 3px 1px rgba(15, 33, 71, .06);
+  --ombre-3: 0 10px 28px rgba(15, 33, 71, .16);
+
+  --police: "Plus Jakarta Sans Variable", "Plus Jakarta Sans", "Segoe UI", Roboto, system-ui, sans-serif;
+  --courbe: cubic-bezier(.2, .8, .2, 1);
 }
-:focus-visible { outline: 3px solid #0b6b58; outline-offset: 2px; }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  font: 400 15px/1.5 var(--police);
+  background: var(--fond);
+  color: var(--texte);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { letter-spacing: -0.01em; text-wrap: balance; }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--nuit-2); outline-offset: 2px; }
+/* Sur fond bleu nuit, le contour devient doré pour rester visible */
+.rail :focus-visible, .nav-mobile :focus-visible, .message :focus-visible { outline-color: var(--or); }
+
+/* Texte lu par les lecteurs d'écran mais invisible */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Icônes (symboles définis dans index.html) */
+.icone { width: 20px; height: 20px; fill: currentColor; flex: none; }
+
+/* ===== Boutons ===== */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 40px; padding: 0 20px; border-radius: 20px;
+  border: 1px solid var(--bordure); background: var(--surface); color: var(--nuit-2);
+  font-weight: 600; font-size: 14px; text-decoration: none; white-space: nowrap; cursor: pointer;
+  transition: transform .15s, box-shadow .2s, background .2s, border-color .2s;
+}
+.btn:hover { background: var(--surface-2); }
+.btn:active { transform: scale(.96); }
+.btn:disabled { opacity: .45; cursor: default; pointer-events: none; }
+.btn .icone { width: 18px; height: 18px; }
+.btn-principal { background: var(--nuit-2); border-color: var(--nuit-2); color: #fff; }
+.btn-principal:hover { background: var(--nuit); box-shadow: var(--ombre-1); }
+.btn-or {
+  background: var(--or); border-color: var(--or); color: var(--sur-or);
+  /* reflet qui traverse le bouton au survol */
+  background-image: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, .5) 50%, transparent 65%);
+  background-size: 250% 100%; background-repeat: no-repeat; background-position: 200% 0;
+}
+.btn-or:hover { background-color: var(--or); box-shadow: 0 6px 16px rgba(212, 166, 42, .4); animation: reflet 1s ease; }
+.btn-danger { background: var(--erreur); border-color: var(--erreur); color: #fff; }
+.btn-danger:hover { background: #8c1d18; }
+.btn-petit { height: 34px; padding: 0 14px; font-size: 13px; }
+.btn-danger-texte { color: var(--erreur); }
+.btn-danger-texte:hover { background: var(--erreur-fond); border-color: var(--erreur-fond); }
+
+/* ===== Badges de statut : couleur + texte (la couleur seule ne suffit pas) ===== */
+.badge {
+  display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 12px 0 10px;
+  border-radius: var(--rayon-s); font-size: 12.5px; font-weight: 700; white-space: nowrap;
+}
+.badge::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.badge-dispo { color: var(--ok); background: var(--ok-fond); }
+.badge-mission { color: var(--alerte); background: var(--alerte-fond); }
+.badge-inactif { color: var(--neutre); background: var(--neutre-fond); }
+
+/* ===== Écrans affichés par le routeur : apparition en douceur ===== */
+app-guide-list, app-guide-form { display: block; animation: monter .45s var(--courbe) both; }
+
+/* ===== Animations ===== */
+@keyframes monter { from { opacity: 0; transform: translateY(18px); } }
+@keyframes glisser { from { opacity: 0; transform: translateX(-24px); } }
+@keyframes surgir { 0% { opacity: 0; transform: scale(.6); } 70% { transform: scale(1.06); } 100% { transform: scale(1); } }
+@keyframes secouer { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+@keyframes reflet { from { background-position: -200% 0; } to { background-position: 200% 0; } }
+@keyframes vague { to { transform: translateX(-50%); } }
+@keyframes balancer { 0%, 100% { transform: rotate(-1.6deg); } 50% { transform: rotate(1.6deg); } }
+@keyframes briller { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+@keyframes scintiller { 0%, 100% { opacity: .2; } 50% { opacity: 1; } }
 
 /* Respecte le réglage « réduire les animations » du système */
 @media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; animation: none !important; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
 }
