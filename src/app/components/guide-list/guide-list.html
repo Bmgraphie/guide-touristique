@@ -1,22 +1,20 @@
 <!-- Bandeau d'accueil (décor animé : baobab, soleil, vague) -->
 <section class="bandeau">
+  <!-- Photo de fond (décorative) + voile bleu nuit pour garder le texte lisible -->
+  <img class="bandeau-photo" src="baobab.webp" alt="" width="540" height="360" fetchpriority="high">
+  <div class="bandeau-voile" aria-hidden="true"></div>
+  <svg class="bandeau-oiseaux" viewBox="0 0 1200 380" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">
+    <g class="oiseaux" fill="none" stroke="#2a1a24" stroke-width="2" stroke-linecap="round">
+      <g class="oiseau"><path d="M0,0 q6,-6 12,0 q6,-6 12,0"/></g>
+      <g class="oiseau" transform="translate(28 12) scale(.75)"><path d="M0,0 q6,-6 12,0 q6,-6 12,0"/></g>
+      <g class="oiseau" transform="translate(-22 18) scale(.6)"><path d="M0,0 q6,-6 12,0 q6,-6 12,0"/></g>
+    </g>
+  </svg>
   <div class="bandeau-texte">
     <p class="surtitre">Teranga · Sénégal</p>
     <h1>Répertoire des <em>guides touristiques</em></h1>
     <p>Recherchez, filtrez et tenez à jour les fiches des guides, de Saint-Louis à Kédougou.</p>
   </div>
-      <svg class="bandeau-art" viewBox="0 0 360 200" aria-hidden="true">
-        <circle class="twinkle" cx="40" cy="30" r="2" fill="var(--gold-soft)"/><circle class="twinkle" style="animation-delay:.8s" cx="96" cy="54" r="1.5" fill="var(--gold-soft)"/><circle class="twinkle" style="animation-delay:1.6s" cx="330" cy="120" r="1.8" fill="var(--gold-soft)"/><circle class="twinkle" style="animation-delay:2.2s" cx="214" cy="22" r="1.5" fill="var(--gold-soft)"/>
-        <g class="sun"><circle cx="276" cy="62" r="44" fill="none" stroke="var(--gold)" stroke-width="2" opacity=".45"/><circle cx="276" cy="62" r="54" fill="none" stroke="var(--gold)" stroke-width="1" opacity=".2"/><circle cx="276" cy="62" r="32" fill="var(--gold)"/></g>
-                <g class="baobab">
-          <path d="M150 112 C146 96 140 90 128 84 M150 112 C154 94 160 88 174 82 M150 120 C140 112 128 112 116 116 M150 120 C162 110 176 110 188 114" stroke="var(--gold-soft)" stroke-width="8" stroke-linecap="round" fill="none"/>
-          <ellipse cx="128" cy="76" rx="30" ry="16" fill="var(--gold)"/><ellipse cx="176" cy="74" rx="34" ry="18" fill="var(--gold)"/>
-          <ellipse cx="114" cy="110" rx="20" ry="11" fill="var(--gold)" opacity=".8"/><ellipse cx="190" cy="108" rx="22" ry="11" fill="var(--gold)" opacity=".8"/>
-          <path d="M150 112 V172" stroke="var(--gold-soft)" stroke-width="16" stroke-linecap="round"/>
-        </g>
-        <path d="M232 174 l18 -34 l18 34 z" fill="var(--gold-soft)" opacity=".55"/><path d="M262 174 l14 -26 l14 26 z" fill="var(--gold-soft)" opacity=".35"/>
-      </svg>
-      <svg class="bandeau-vague" viewBox="0 0 2400 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30 Q150 0 300 30 T600 30 T900 30 T1200 30 T1500 30 T1800 30 T2100 30 T2400 30 V60 H0Z" fill="var(--hero-wave)"/><path d="M0 30 Q150 0 300 30 T600 30 T900 30 T1200 30 T1500 30 T1800 30 T2100 30 T2400 30" fill="none" stroke="var(--gold)" stroke-width="2" opacity=".7"/></svg>
 </section>
 
 <!-- Indicateurs -->

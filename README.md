@@ -187,6 +187,7 @@ Le projet a été réalisé à trois avec Git et GitHub. Chaque membre a travail
 - [angular-cli-ghpages](https://www.npmjs.com/package/angular-cli-ghpages), pour la mise en ligne sur GitHub Pages
 - Guide pratique « pas à pas » Angular fourni par l'enseignant
 - [Plus Jakarta Sans](https://fontsource.org/fonts/plus-jakarta-sans) (licence OFL), police installée avec le paquet npm `@fontsource-variable/plus-jakarta-sans` : elle fonctionne aussi sans connexion
+- Photo du bandeau d'accueil (baobab au coucher du soleil) : *source et licence à compléter*
 - [Material Symbols](https://fonts.google.com/icons) (licence Apache 2.0), icônes copiées en SVG dans `src/index.html`
 - Aucune bibliothèque de composants d'interface : tous les styles et animations sont écrits en CSS
 - Données : personnes, e-mails et numéros **entièrement fictifs**

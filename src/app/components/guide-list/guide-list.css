@@ -1,26 +1,42 @@
-/* ===== Bandeau d'accueil ===== */
+/* ===== Bandeau d'accueil : photo du baobab au coucher du soleil ===== */
 .bandeau {
-  position: relative; overflow: hidden;
-  display: grid; grid-template-columns: 1.4fr 1fr; align-items: center; gap: 24px;
-  padding: 32px 36px 48px; margin-bottom: 20px; border-radius: var(--rayon-xl);
+  position: relative; overflow: hidden; isolation: isolate;
+  display: flex; align-items: center; min-height: 320px;
+  margin-bottom: 20px; border-radius: var(--rayon-xl);
   background: var(--nuit); color: #fff;
-  /* couleurs utilisées par le dessin SVG */
-  --gold: var(--or); --gold-soft: var(--or-clair); --hero-wave: var(--nuit-2);
 }
-.surtitre { margin: 0 0 6px; font-size: 12.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--or); }
-.bandeau h1 { margin: 0; font-size: 2rem; font-weight: 800; line-height: 1.15; }
-.bandeau h1 em { font-style: normal; color: var(--or); }
-.bandeau-texte > p:last-child { margin: 10px 0 0; max-width: 46ch; color: var(--nuit-texte); }
+/* La photo occupe la droite et zoome très lentement */
+.bandeau-photo {
+  position: absolute; top: 0; right: 0; z-index: -2;
+  width: 66%; height: 100%; object-fit: cover; object-position: 55% 45%;
+  transform-origin: 65% 60%; animation: zoom-lent 24s ease-in-out infinite alternate;
+  /* bord gauche fondu dans le bleu nuit */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 35%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 35%);
+}
+/* Voile bleu nuit : le texte reste lisible à gauche */
+.bandeau-voile {
+  position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(90deg, var(--nuit) 0%, var(--nuit) 30%, rgba(15, 33, 71, .55) 48%, rgba(15, 33, 71, 0) 66%);
+}
+.bandeau-oiseaux { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+.oiseaux { animation: vol 26s linear infinite; }
+.oiseau path { transform-box: fill-box; transform-origin: center; animation: battre .55s ease-in-out infinite alternate; }
+.oiseau:nth-child(2) path { animation-delay: -.3s; }
+.oiseau:nth-child(3) path { animation-delay: -.15s; }
+
+.bandeau-texte { max-width: 520px; padding: 40px 44px; }
+.surtitre { margin: 0 0 6px; font-size: 12.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--or-clair); }
+.bandeau h1 { margin: 0; font-size: 2.2rem; font-weight: 800; line-height: 1.12; }
+.bandeau h1 em { font-style: normal; color: #f3c45a; }
+.bandeau-texte > p:last-child { margin: 10px 0 0; max-width: 46ch; color: #d4dcef; }
 .bandeau-texte > * { animation: monter .6s var(--courbe) both; }
 .bandeau-texte > :nth-child(2) { animation-delay: .08s; }
 .bandeau-texte > :nth-child(3) { animation-delay: .16s; }
 
-/* Décor animé (tous les éléments sont décoratifs : aria-hidden) */
-.bandeau-art { justify-self: end; width: 100%; max-width: 330px; }
-.baobab { transform-origin: 150px 172px; transform-box: view-box; animation: balancer 6s ease-in-out infinite; }
-.sun { transform-origin: 276px 62px; transform-box: view-box; animation: briller 4s ease-in-out infinite; }
-.twinkle { animation: scintiller 2.6s ease-in-out infinite; }
-.bandeau-vague { position: absolute; left: 0; bottom: 0; width: 200%; height: 40px; pointer-events: none; animation: vague 14s linear infinite; }
+@keyframes zoom-lent { to { transform: scale(1.08); } }
+@keyframes vol { from { transform: translate(1260px, 150px); } to { transform: translate(-80px, 95px); } }
+@keyframes battre { to { transform: scaleY(.35); } }
 
 /* ===== Indicateurs ===== */
 .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-bottom: 20px; }
@@ -121,15 +137,17 @@ dialog .actions { justify-content: center; }
 
 /* ===== Tablette ===== */
 @media (max-width: 1000px) {
-  .bandeau { grid-template-columns: 1fr; }
-  .bandeau-art { display: none; }
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 /* ===== Mobile : le tableau devient une liste de cartes ===== */
 @media (max-width: 760px) {
-  .bandeau { padding: 24px 22px 44px; border-radius: var(--rayon-l); }
-  .bandeau h1 { font-size: 1.5rem; }
+  /* Téléphone : la photo remplit le bandeau, le voile assombrit le haut */
+  .bandeau { min-height: 300px; align-items: flex-start; border-radius: var(--rayon-l); }
+  .bandeau-photo { width: 100%; object-position: 50% 40%; -webkit-mask-image: none; mask-image: none; }
+  .bandeau-voile { background: linear-gradient(180deg, rgba(15, 33, 71, .92) 0%, rgba(15, 33, 71, .7) 45%, rgba(15, 33, 71, .1) 80%); }
+  .bandeau-texte { padding: 26px 22px 90px; }
+  .bandeau h1 { font-size: 1.6rem; }
   .stats { gap: 10px; }
   .stat strong { font-size: 1.6rem; }
   .outils { grid-template-columns: 1fr 1fr; }
