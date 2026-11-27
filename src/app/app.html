@@ -1,9 +1,11 @@
+<a class="lien-evitement" href="#contenu" (click)="allerAuContenu($event)">Aller au contenu principal</a>
+
 <header class="entete">
   <a routerLink="/guides" class="marque">{{ titre }}</a>
   <a routerLink="/guides/nouveau" class="bouton">+ Ajouter un guide</a>
 </header>
 
-<main class="contenu">
+<main class="contenu" id="contenu" tabindex="-1">
   <router-outlet />
 </main>
 
