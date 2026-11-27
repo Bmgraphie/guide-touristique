@@ -110,10 +110,6 @@ app-guide-list, app-guide-form { display: block; animation: monter .45s var(--co
 @keyframes surgir { 0% { opacity: 0; transform: scale(.6); } 70% { transform: scale(1.06); } 100% { transform: scale(1); } }
 @keyframes secouer { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
 @keyframes reflet { from { background-position: -200% 0; } to { background-position: 200% 0; } }
-@keyframes vague { to { transform: translateX(-50%); } }
-@keyframes balancer { 0%, 100% { transform: rotate(-1.6deg); } 50% { transform: rotate(1.6deg); } }
-@keyframes briller { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
-@keyframes scintiller { 0%, 100% { opacity: .2; } 50% { opacity: 1; } }
 
 /* Respecte le réglage « réduire les animations » du système */
 @media (prefers-reduced-motion: reduce) {
